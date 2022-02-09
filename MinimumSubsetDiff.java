@@ -7,8 +7,8 @@ public class MinimumSubsetDiff {
             return diff;
         }
 
-        int includedInFirstSetDiff = minimumSubsetDiff(arr, size - 1, first + arr[size - 1], second);
-        int includedInSecondSetDiff = minimumSubsetDiff(arr, size - 1, first, second + arr[size - 1]);
+        int includedInFirstSetDiff = minimumSubsetDiffRec(arr, size - 1, first + arr[size - 1], second);
+        int includedInSecondSetDiff = minimumSubsetDiffRec(arr, size - 1, first, second + arr[size - 1]);
 
         int minDiff = Math.min(includedInFirstSetDiff, includedInSecondSetDiff);
         return minDiff;
