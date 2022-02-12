@@ -1,3 +1,4 @@
+package DynamicProgramming;
 public class MinimumSubsetDiff {
     
     public static int minimumSubsetDiffRec(int[] arr, int size, int first, int second) {
