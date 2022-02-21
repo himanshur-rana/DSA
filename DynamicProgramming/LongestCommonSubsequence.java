@@ -47,11 +47,53 @@ public class LongestCommonSubsequence {
         return dp[text1.length()][text2.length()];
     }
 
+    public String longestCommonSubsequencePrint(String s, String t) {
+
+        int[][] dp = new int[s.length() + 1][t.length() + 1];
+        
+        for(int i = 0; i <= s.length(); i++) {
+            dp[i][0] = 0;
+        }
+        for(int i = 0; i <= t.length(); i++) {
+            dp[0][i] = 0;
+        }
+
+        for(int i = 1; i <= s.length(); i++) {
+            for(int j = 1; j <= t.length(); j++) {
+                if(s.charAt(i - 1) == t.charAt(j - 1)) {
+                    dp[i][j] = 1 + dp[i - 1][j - 1] + 1;
+                } else {
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+
+        String finalResult = "";
+        int i = s.length();
+        int j = t.length();
+
+        while(i > 0 && j > 0) {
+            if(s.charAt(i - 1) == s.charAt(j - 1)) {
+                finalResult = s.charAt(i - 1) + finalResult;
+                i--;
+                j--;
+            } else if(dp[i - 1][j] > dp[i][j - 1]) {
+                i--;
+            } else {
+                j--;
+            }
+        }
+
+        return finalResult;
+    }
+
     public static void main(String[] args) {
         String text1 = "abcde";
         String text2 = "abe";
         
-        new LongestCommonSubsequence().longestCommonSubsequence(text1, text2);
+        String finalResult = new LongestCommonSubsequence().longestCommonSubsequencePrint(text1, text2);
+        System.out.println(finalResult);
+
     }
     
 }
