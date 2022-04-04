@@ -68,6 +68,33 @@ public class Traversal {
         }
     }
 
+    public void inorderTraversalIterative(Node root) {
+        Stack<Node> pendingNodes = new Stack<>();
+        if(root == null) {
+            return;
+        }
+        pendingNodes.push(root);
+        Node currentNode = root;
+        while(!pendingNodes.isEmpty()) {
+            if(currentNode == null) {
+                Node poppedNode = pendingNodes.pop();
+                System.out.println(poppedNode.data);
+                currentNode = poppedNode.right;
+                if(currentNode != null) {
+                    pendingNodes.push(currentNode);
+                }
+                continue;
+            }
+            Node nextNode = currentNode.left;
+            if(nextNode != null) {
+                pendingNodes.push(nextNode);
+            }
+            currentNode = nextNode;
+        }
+    }
+
+
+
     public static void main(String[] args) {
         // Make a tree
         Node root = new Node(1);
@@ -76,8 +103,6 @@ public class Traversal {
         root.left.left = new Node(4);
         root.left.right = new Node(5);
         Traversal traversalObj = new Traversal();
-        traversalObj.preOrderTraversal(root);
-        System.out.println();
-        traversalObj.preOrderTraversalIterative(root);
+        traversalObj.inorderTraversalIterative(root);
     }
 }
