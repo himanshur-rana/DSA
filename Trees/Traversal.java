@@ -3,6 +3,8 @@ package Trees;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
+import java.util.List;
+import java.util.ArrayList;
 
 class Node {
     
@@ -143,6 +145,32 @@ public class Traversal {
         }
     }
 
+    private List<Integer> morrisOrderTraversal(Node root) {
+        List<Integer> result = new ArrayList<>();
+        Node current = root;
+        while(current != null) {
+            if(current.left == null) {
+                result.add(current.data);
+                current = current.right;
+            } else {
+                Node previous = current.left;
+                while(previous.right != null && previous.right != current) {
+                    previous = previous.right;
+                }
+                if(previous.right == null) {
+                    previous.right = current;
+                    current = current.left;
+                } else {
+                    result.add(current.data);
+                    previous.right = null;
+                    current = current.right;
+                }
+
+            }
+        }
+        return result;
+    }
+
     public static void main(String[] args) {
         // Make a tree
         Node root = new Node(1);
@@ -150,9 +178,11 @@ public class Traversal {
         root.right = new Node(3);
         root.left.left = new Node(4);
         root.left.right = new Node(5);
+        root.left.right.right = new Node(6);
         Traversal traversalObj = new Traversal();
-        traversalObj.postOrderTraversalIterative1(root);
+        //traversalObj.postOrderTraversalIterative1(root);
+        System.out.print(traversalObj.morrisOrderTraversal(root));
         System.out.println();
-        traversalObj.postOrderTraversalIterative2(root);
+        //traversalObj.postOrderTraversalIterative2(root);
     }
 }
