@@ -2,6 +2,30 @@ package Graph;
 
 public class GraphQuestions {
 
+    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+        boolean[][] visited = new boolean[image.length][image[0].length];
+        visited[sr][sc] = true;
+        floodFillDFS(image, sr, sc, color, visited);
+        return image;
+    }   
+    
+    private void floodFillDFS(int[][] image, int sr, int sc, int color, boolean[][] visited) {
+        int prevColor = image[sr][sc];
+        image[sr][sc] = color;
+        for(int i = -1; i <= 1; i++) {
+            if((sr + i) >= 0 && (sr + i) < image.length && !visited[sr + i][sc] && image[sr + i][sc] == prevColor) {
+                visited[sr + i][sc] = true;
+                floodFillDFS(image, sr + i, sc, color, visited);
+            }
+        }
+        for(int i = -1; i <= 1; i++) {
+            if((sc + i) >= 0 && (sc + i) < image[0].length && !visited[sr][sc + i] && image[sr][sc + i] == prevColor) {
+                visited[sr][sc + i] = true;
+                floodFillDFS(image, sr, sc + i, color, visited);
+            }
+        }        
+    }
+
     public int numIslands(char[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
