@@ -1,6 +1,72 @@
 package Graph;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class GraphQuestions {
+
+    class graphNode {
+        int rN;
+        int cN;
+        graphNode(int rN, int cN) {
+            this.cN = cN;
+            this.rN = rN;
+        }
+    }
+    public int orangesRotting(int[][] grid) {
+        boolean[][] visited = new boolean[grid.length][grid[0].length];
+        Queue<graphNode> queue = new LinkedList<>();
+        for(int i = 0; i < grid.length; i++) {
+            for(int j = 0; j < grid[0].length; j++) {
+                if(grid[i][j] == 2) {
+                    queue.add(new graphNode(i, j));
+                    visited[i][j] = true;
+                }
+            }
+        }
+        queue.add(null);
+
+        int time = 0;
+
+        while(!queue.isEmpty()) {
+            time++;
+            while(queue.peek() != null) {
+                graphNode gN = queue.poll();
+                for(int i = -1; i <= 1; i++) {
+                    int row = gN.rN + i;
+                    int col = gN.cN;
+                    if(row >= 0 && row < grid.length && !visited[row][col] && grid[row][col] == 1) {
+                        grid[row][col] = 2;
+                        visited[row][col] = true;
+                        queue.add(new graphNode(row, col));
+                    }
+                }
+                for(int i = -1; i <= 1; i++) {
+                    int row = gN.rN;
+                    int col = gN.cN + i;
+                    if(col >= 0 && col < grid[0].length && !visited[row][col] && grid[row][col] == 1) {
+                        grid[row][col] = 2;
+                        visited[row][col] = true;
+                        queue.add(new graphNode(row, col));
+                    }
+                }                
+            }
+            queue.poll();
+            if(!queue.isEmpty()) {
+                time++;
+                queue.add(null);
+            }
+        }
+        
+        for(int i = 0; i < grid.length; i++) {
+            for(int j = 0; j < grid[0].length; j++) {
+                if(grid[i][j] == 1) {
+                    return -1;
+                }
+            }
+        }        
+        return time;
+    }    
 
     public int[][] floodFill(int[][] image, int sr, int sc, int color) {
         boolean[][] visited = new boolean[image.length][image[0].length];
